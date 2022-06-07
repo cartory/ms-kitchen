@@ -4,7 +4,7 @@ const { Request, Recipe } = require('../settings/models')
 
 const getRecipes = () => {
     try {
-        return Recipe.findAll({ include: [{ association: 'ingredients' }] })
+        return Recipe.findAll({ include: ['ingredients'] })
     } catch (err) {
         console.error(err);
         return []
@@ -13,16 +13,15 @@ const getRecipes = () => {
 
 const getRecipe = (id) => {
     try {
-        return Ingredient.findOne({ where: { id } })
+        return Recipe.findOne({ where: { id }, include: ['ingredients'] })
     } catch (err) {
         console.error(err);
         throw new Error('Recipe Not Found')
     }
 }
 
-const getRecipesHistory = (page = 0, limit = 10) => {
+const getRecipesHistory = (page = 0, limit = 15) => {
     try {
-
         return Request.findAll({
             limit: limit,
             offset: page * limit,
@@ -32,6 +31,7 @@ const getRecipesHistory = (page = 0, limit = 10) => {
                 }
             },
             include: ['recipe'],
+            order: [["createdAt", "DESC"]]
         })
     } catch (err) {
         console.error(err)
@@ -39,9 +39,9 @@ const getRecipesHistory = (page = 0, limit = 10) => {
     }
 }
 
-const addRecipeHistory = async (recipe) => {
+const addRecipeHistory = async (recipeId) => {
     try {
-        await Request.create({ recipe })
+        await Request.create({ recipeId })
     } catch (err) {
         console.error(err)
     }

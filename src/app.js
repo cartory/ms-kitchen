@@ -18,6 +18,6 @@ app
     .use(express.urlencoded({ extended: true }))
     .use(express.json())
     .use('/api', apiRoutes)
-    .get('/', (_, res) => res.send('<h1>Welcome to ms-ware-house API 👋 </h1>'))
+    .get('/', (_, res) => res.send('<h1>Welcome to ms-kitchen API 👋 </h1>'))
 
 module.exports = app

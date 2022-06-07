@@ -23,13 +23,14 @@ const findAll = async (_, res) => {
 }
 
 const getRecipesHistory = async ({ query }, res) => {
-    let { page = 0, limit = 10 } = query
+    let { page = 0, limit = 15 } = query
 
-    page = isNaN(page) ? 0 : page
-    limit = isNaN(limit) ? 10 : limit
+    page = isNaN(page) ? 0 : Number(page)
+    limit = isNaN(limit) ? 15 : Number(limit)
 
     try {
-        return recipeService.getRecipesHistory(page, limit)
+        const history = await recipeService.getRecipesHistory(page, limit)
+        return res.status(200).json(history)
     } catch (err) {
         console.error(err)
         return res.status(500).json([])
