@@ -8,6 +8,6 @@ router
     // 
     .get('/recipes', recipeController.findAll)
     .get('/recipes/:id', recipeController.findOne)
-    .get('/history/recipes', recipeController.getHistory)
+    .get('/history/recipes', recipeController.getRecipesHistory)
 
 module.exports = router

@@ -1,22 +1,23 @@
 const { Model, DataTypes } = require('sequelize')
 
-const sequelize = require('./sequelize')
-const { Ingredient } = require('./ingredient')
+const sequelize = require('../settings/sequelize')
 
 class Recipe extends Model { }
+class RecipeIngredient extends Model { }
 
 Recipe.init({
     id: {
-        key: 'id',
         type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
         autoIncrementIdentity: true,
     },
     name: {
-        key: 'name',
         unique: true,
         type: DataTypes.STRING,
+    },
+    imageUrl: {
+        type: DataTypes.STRING
     },
 }, {
     sequelize,
@@ -24,7 +25,16 @@ Recipe.init({
     timestamps: true,
 })
 
-Ingredient.belongsToMany(Recipe, { as: 'recipes' })
-Recipe.belongsToMany(Ingredient, { as: 'ingredients' })
+RecipeIngredient.init({
+    count: {
+        defaultValue: 0,
+        allowNull: false,
+        type: DataTypes.INTEGER,
+    }
+}, {
+    sequelize,
+    paranoid: false,
+    timestamps: false,
+})
 
-module.exports = { Recipe, Ingredient }
+module.exports = { Recipe, RecipeIngredient }

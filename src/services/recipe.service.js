@@ -1,5 +1,6 @@
-const { Recipe } = require('../models/recipe')
-const { Request } = require('../models/request')
+const { Op } = require('sequelize')
+
+const { Request, Recipe } = require('../settings/models')
 
 const getRecipes = () => {
     try {
@@ -25,8 +26,12 @@ const getRecipesHistory = (page = 0, limit = 10) => {
         return Request.findAll({
             limit: limit,
             offset: page * limit,
-            order: [['createdAt', 'DESC']],
-            include: ['recipe']
+            where: {
+                RecipeId: {
+                    [Op.not]: null
+                }
+            },
+            include: ['recipe'],
         })
     } catch (err) {
         console.error(err)
@@ -34,7 +39,7 @@ const getRecipesHistory = (page = 0, limit = 10) => {
     }
 }
 
-const addRecipeHistory = (recipe) => {
+const addRecipeHistory = async (recipe) => {
     try {
         await Request.create({ recipe })
     } catch (err) {

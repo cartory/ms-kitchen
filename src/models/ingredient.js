@@ -1,32 +1,31 @@
 const { Model, DataTypes } = require('sequelize')
 
-const sequelize = require('./sequelize')
+const sequelize = require('../settings/sequelize')
 
 class Ingredient extends Model { }
 
 Ingredient.init({
     id: {
-        key: 'id',
-        type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
         autoIncrementIdentity: true,
+        type: DataTypes.INTEGER(10),
     },
     name: {
-        key: 'name',
         unique: true,
         type: DataTypes.STRING,
     },
+    imageUrl: {
+        type: DataTypes.STRING
+    },
     stock: {
-        key: 'stock',
-        type: DataTypes.INTEGER,
         defaultValue: 5,
+        type: DataTypes.INTEGER,
     },
 
     minimumStock: {
-        key: 'minimumStock',
-        type: DataTypes.INTEGER,
         defaultValue: 10,
+        type: DataTypes.INTEGER,
     }
 }, {
     sequelize,

@@ -22,7 +22,7 @@ const findAll = async (_, res) => {
     }
 }
 
-const getHistory = async ({ query }, res) => {
+const getRecipesHistory = async ({ query }, res) => {
     let { page = 0, limit = 10 } = query
 
     page = isNaN(page) ? 0 : page
@@ -39,5 +39,5 @@ const getHistory = async ({ query }, res) => {
 module.exports = {
     findOne,
     findAll,
-    getHistory,
+    getRecipesHistory,
 }
